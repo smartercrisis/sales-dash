@@ -111,11 +111,20 @@ with cc2:
     city_rev["lon"] = city_rev["city_clean"].str.lower().map(lambda c: CITY_COORDS.get(c, (None, None))[1])
     mapped = city_rev.dropna(subset=["lat", "lon"])
     if len(mapped) >= 2:
-        fig_map = px.scatter_mapbox(
-            mapped, lat="lat", lon="lon", size="amount", color="amount",
-            hover_name="city_clean", zoom=4.3, mapbox_style="carto-darkmatter",
-            title="Revenue by City"
-        )
+        # plotly renamed scatter_mapbox -> scatter_map in newer releases.
+        # Support whichever one the deployed environment has.
+        if hasattr(px, "scatter_map"):
+            fig_map = px.scatter_map(
+                mapped, lat="lat", lon="lon", size="amount", color="amount",
+                hover_name="city_clean", zoom=4.3, map_style="carto-darkmatter",
+                title="Revenue by City"
+            )
+        else:
+            fig_map = px.scatter_mapbox(
+                mapped, lat="lat", lon="lon", size="amount", color="amount",
+                hover_name="city_clean", zoom=4.3, mapbox_style="carto-darkmatter",
+                title="Revenue by City"
+            )
         st.plotly_chart(fig_map, use_container_width=True)
     else:
         fig_city = px.bar(city_rev.sort_values("amount", ascending=False),
