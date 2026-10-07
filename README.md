@@ -23,14 +23,3 @@ downloadable executive summary.
 3. Run: `streamlit run app.py --server.port 8080 --server.address 0.0.0.0`
 4. Replit's free tier will sleep the app after inactivity — fine for a
    one-time client review, not for something you want always-on.
-
-## Before you send this to the client
-- Ask whether "New Cairo" should count as its own zone or get folded into
-  "Cairo" for their reporting — the app currently keeps them separate.
-- Confirm their export actually has a returned/not-returned flag per order.
-  Without it, the return-rate section will show 0% for everything, which
-  will look broken rather than just "no data."
-- Test with a real (even partial) export from her before delivery — the
-  column-mapping step handles unknown layouts, but real Instagram/manual
-  exports often have merged cells or stray header rows that a synthetic
-  test file won't catch.
